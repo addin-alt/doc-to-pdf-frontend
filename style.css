@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #f5f7fb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main Card */
+.container {
+    background: #ffffff;
+    width: 360px;
+    margin: auto;
+    padding: 30px 25px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Front Image */
+.hero-img {
+    width: 110px;
+    margin-bottom: 15px;
+}
+
+/* Headings */
+.container h1 {
+    font-size: 22px;
+    margin-bottom: 6px;
+    color: #222;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* File Input */
+input[type="file"] {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background-color: #1e40af;
+}
+
+/* Status Text */
+#status {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #333;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 13px;
+    color: #555;
+}
+
+.social-links {
+    margin-top: 6px;
+}
+
+.social-links a {
+    margin: 0 6px;
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.social-links a:hover {
+    text-decoration: underline;
+}
