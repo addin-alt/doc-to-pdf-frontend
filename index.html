@@ -6,7 +6,7 @@
     <title>Doc2PDF — DOCX to PDF Converter</title>
     <meta
       name="description"
-      content="Convert Word documents to PDF instantly. Free, private, no sign-up required."
+      content="Convert Word documents to PDF instantly. Free, private, no sign-up."
     />
     <link
       rel="icon"
@@ -24,6 +24,14 @@
     <div class="noise" aria-hidden="true"></div>
     <div class="bg-glow bg-glow--a" aria-hidden="true"></div>
     <div class="bg-glow bg-glow--b" aria-hidden="true"></div>
+
+    <!-- FILE INPUT — lives at body level, never inside any clickable container -->
+    <input
+      type="file"
+      id="fileInput"
+      accept=".doc,.docx"
+      style="display: none"
+    />
 
     <!-- ══ HEADER ══ -->
     <header class="header">
@@ -47,7 +55,15 @@
             aria-hidden="true"
           >
             <path
-              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205
+          11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735
+          -4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015
+          1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605
+          -2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12
+          -3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56
+          3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+          4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015
+          3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
             />
           </svg>
           GitHub
@@ -61,7 +77,7 @@
         <div class="pill">Free &nbsp;·&nbsp; Instant &nbsp;·&nbsp; Private</div>
         <h1 class="hero-h1">Convert <em>DOCX</em><br />to <em>PDF</em></h1>
         <p class="hero-p">
-          Upload your Word file — get a crisp PDF back in seconds.<br
+          Upload your Word file — get a crisp PDF in seconds.<br
             class="br-desk"
           />No account. No storage. No nonsense.
         </p>
@@ -69,12 +85,9 @@
 
       <!-- ══ CONVERTER ══ -->
       <section class="converter">
-        <!-- Hidden file input — triggered by JS only -->
-        <input type="file" id="fileInput" accept=".doc,.docx" hidden />
-
-        <!-- Drop zone (drag area only — no click-to-open here) -->
+        <!-- DROP ZONE — only handles drag/drop visuals, NOT click -->
         <div class="dropzone" id="dropZone">
-          <!-- Empty state -->
+          <!-- STATE: empty -->
           <div id="emptyState" class="dz-empty">
             <div class="dz-icon" aria-hidden="true">
               <svg width="54" height="54" viewBox="0 0 54 54" fill="none">
@@ -117,11 +130,15 @@
               Drag &amp; drop your <strong>.docx</strong> here
             </p>
             <span class="dz-or">— or —</span>
-            <!-- Browse button: click event handled fully in JS, stopPropagation prevents bubbling -->
+            <!--
+            IMPORTANT: onclick calls openFilePicker() defined in script.js.
+            Button is NOT inside any other click listener.
+            No addEventListener on this button — inline onclick only.
+          -->
             <button
-              class="btn-browse"
               type="button"
-              id="browseBtn"
+              class="btn-browse"
+              onclick="openFilePicker()"
               data-tip="Open file picker"
             >
               Browse file
@@ -131,7 +148,7 @@
             </p>
           </div>
 
-          <!-- File selected state -->
+          <!-- STATE: file chosen -->
           <div id="fileState" class="dz-file" style="display: none">
             <span class="dz-file-ico" aria-hidden="true">📄</span>
             <div class="dz-file-meta">
@@ -139,21 +156,21 @@
               <span class="dz-filesize" id="fileSize"></span>
             </div>
             <button
-              class="btn-remove"
-              id="clearBtn"
               type="button"
+              class="btn-remove"
+              onclick="clearFile()"
               data-tip="Remove file"
               aria-label="Remove file"
             >
               <svg
                 width="11"
                 height="11"
-                viewBox="0 0 11 11"
+                viewBox="0 0 12 12"
                 fill="none"
                 aria-hidden="true"
               >
                 <path
-                  d="M1 1l9 9M10 1L1 10"
+                  d="M1 1l10 10M11 1L1 11"
                   stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
@@ -162,8 +179,9 @@
             </button>
           </div>
         </div>
+        <!-- /dropzone -->
 
-        <!-- Progress bar -->
+        <!-- PROGRESS -->
         <div class="progress-row" id="progressRow" style="display: none">
           <div class="progress-track">
             <div class="progress-fill" id="progressFill"></div>
@@ -171,7 +189,7 @@
           <span class="progress-pct" id="progressPct">0%</span>
         </div>
 
-        <!-- Status message -->
+        <!-- STATUS -->
         <div
           class="status-msg"
           id="statusMsg"
@@ -179,8 +197,14 @@
           role="alert"
         ></div>
 
-        <!-- Convert button -->
-        <button class="btn-convert" id="convertBtn" type="button" disabled>
+        <!-- CONVERT BUTTON -->
+        <button
+          type="button"
+          class="btn-convert"
+          id="convertBtn"
+          onclick="convertFile()"
+          disabled
+        >
           <span id="btnLabel">Convert to PDF</span>
           <svg
             id="btnArrow"
@@ -277,7 +301,7 @@
             </div>
             <div class="dev-body">
               <h2 class="dev-name">Al Addin</h2>
-              <p class="dev-role">Full-stack developer &amp; project lead</p>
+              <p class="dev-role">Software Engineer</p>
               <div class="dev-socials">
                 <a
                   href="https://github.com/addin-alt"
@@ -347,7 +371,7 @@
             </div>
             <div class="dev-body">
               <h2 class="dev-name">Shawn</h2>
-              <p class="dev-role">Developer &amp; UI collaborator</p>
+              <p class="dev-role">Software Engineer</p>
               <div class="dev-socials">
                 <a
                   href="https://github.com/shawnazd"
@@ -396,7 +420,6 @@
       </div>
     </main>
 
-    <!-- ══ FOOTER ══ -->
     <footer class="footer">
       <p>
         © 2026 Al Addin &amp; Shawn &nbsp;·&nbsp; Doc2PDF &nbsp;·&nbsp; MIT
