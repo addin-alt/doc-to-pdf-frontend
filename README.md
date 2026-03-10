@@ -1,147 +1,39 @@
-# ⚡ DocFlow — DOCX to PDF Converter
+# 📄 doc2PDF
 
-A clean, fast, and mobile-responsive frontend for converting Word documents (`.doc` / `.docx`) to PDF — no sign-up, no file storage, completely private.
+A clean, modern DOCX to PDF converter with drag & drop upload, real-time progress, and instant auto-download.
 
-**🌐 Live Demo:** [addin-alt.github.io/doc-to-pdf-frontend](https://addin-alt.github.io/doc-to-pdf-frontend/)  
-**⚙️ Backend API:** [doc-to-pdf-backend.onrender.com](https://doc-to-pdf-backend.onrender.com)
+🌐 **[Live Demo](https://github.com/shawnazd/Doc2PDF)**
+
+---
+
+## 📸 Screenshot
+
+![doc2PDF](ss1.png)
 
 ---
 
 ## ✨ Features
 
-- 📂 **Drag & drop** or click-to-browse file selection
-- ✅ **Client-side validation** — type checking and 20 MB size limit before upload
-- 📊 **Animated progress bar** with real-time percentage updates
-- 📱 **Fully responsive** — works great on mobile, tablet, and desktop
-- 🔒 **Privacy-first** — files are never stored; processed and deleted instantly
-- ⚡ **Auto-download** — the converted PDF downloads automatically on success
-- 🎨 **Dark UI** with smooth animations and micro-interactions
+- **Drag & drop upload** — Drop your file or click to browse
+- **Auto-download** — PDF downloads automatically on success
+- **Client-side validation** — Type checking and 20 MB size limit before upload
+- **Animated progress bar** — Real-time percentage updates during conversion
+- **Privacy-first** — Files are never stored; processed and deleted instantly
+- **Fully responsive** — Works great on mobile and desktop
 
 ---
 
-## 🚀 Getting Started
+## 🛠 Built With
 
-### Option A — Run Locally
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/addin-alt/doc-to-pdf-frontend.git
-
-# 2. Navigate into the folder
-cd doc-to-pdf-frontend
-
-# 3. Open in browser
-# Simply open index.html — no build step required
-open index.html          # macOS
-start index.html         # Windows
-xdg-open index.html      # Linux
-```
-
-### Option B — Serve with a local dev server (recommended)
-
-```bash
-# Using Python
-python3 -m http.server 8080
-
-# Using Node.js / npx
-npx serve .
-
-# Then visit: http://localhost:8080
-```
+- HTML5, CSS3, JavaScript (ES6+)
+- [Outfit](https://fonts.google.com/specimen/Outfit) — Google Fonts
+- [doc-to-pdf-backend.onrender.com](https://doc-to-pdf-backend.onrender.com) — Conversion API
+- [open.er-api.com](https://open.er-api.com) — _(backend powered by LibreOffice)_
 
 ---
 
-## 📁 Project Structure
+## 👤 Developers
 
-```
-doc-to-pdf-frontend/
-├── index.html      # Main HTML — markup & structure
-├── style.css       # All styles — dark theme, animations, responsive layout
-├── script.js       # Conversion logic — drag/drop, validation, fetch, download
-└── README.md       # Project documentation (you're here!)
-```
+**Al Addin** · [GitHub](https://github.com/addin-alt) · [Facebook](https://facebook.com/addin-alt)
 
----
-
-## ⚙️ Configuration
-
-The backend endpoint is defined at the top of `script.js`:
-
-```js
-const API_URL = "https://doc-to-pdf-backend.onrender.com/convert";
-const MAX_FILE_MB = 20; // Maximum upload size
-```
-
-To point to a different backend, update `API_URL` to your server's URL.
-
----
-
-## 🔌 Backend API
-
-The frontend communicates with a backend that accepts `multipart/form-data` POST requests:
-
-| Method | Endpoint   | Body          | Response                       |
-| ------ | ---------- | ------------- | ------------------------------ |
-| POST   | `/convert` | `file` (docx) | PDF binary (`application/pdf`) |
-
-**Error handling:** Non-2xx responses are caught and the server's error message (JSON `message` or `error` field) is displayed to the user.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome!
-
-```bash
-# 1. Fork the repository
-# 2. Create a feature branch
-git checkout -b feature/your-feature-name
-
-# 3. Make your changes and commit
-git commit -m "feat: add your feature description"
-
-# 4. Push and open a Pull Request
-git push origin feature/your-feature-name
-```
-
-Please follow [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
-
----
-
-## 🛠 Tech Stack
-
-| Layer   | Technology                           |
-| ------- | ------------------------------------ |
-| Markup  | HTML5 (semantic)                     |
-| Styles  | CSS3 (custom properties, animations) |
-| Logic   | Vanilla JavaScript (ES2020+)         |
-| Fonts   | Google Fonts — Sora + JetBrains Mono |
-| HTTP    | Fetch API with `FormData`            |
-| Hosting | GitHub Pages                         |
-
----
-
-## 👨‍💻 Developer
-
-<table>
-  <tr>
-    <td align="center">
-      <strong>Al Addin</strong><br/>
-      Full-stack developer passionate about building tools that make life easier.<br/><br/>
-      <a href="https://github.com/addin-alt">GitHub</a> ·
-      <a href="https://linkedin.com/in/addin-alt">LinkedIn</a> ·
-      <a href="https://facebook.com/addin-alt">Facebook</a> ·
-      <a href="https://instagram.com/addin_alt">Instagram</a>
-    </td>
-  </tr>
-</table>
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
----
-
-<p align="center">© 2026 Al Addin · Built with ❤️ and ☕</p>
+**Shawn** · [GitHub](https://github.com/shawnazd) · [Facebook](https://facebook.com/shawnazd)

@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DOCX → PDF Converter</title>
+    <title>Doc2PDF — DOCX to PDF Converter</title>
+    <meta
+      name="description"
+      content="Convert Word documents to PDF instantly. Free, private, no sign-up required."
+    />
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>"
@@ -11,368 +15,401 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Animated background particles -->
-    <div class="bg-grid"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="bg-glow bg-glow--a" aria-hidden="true"></div>
+    <div class="bg-glow bg-glow--b" aria-hidden="true"></div>
 
-    <main class="page">
-      <!-- ── Header ── -->
-      <header class="site-header">
-        <div class="logo">
-          <span class="logo-icon">⚡</span>
-          <span class="logo-text">DocFlow</span>
-        </div>
+    <!-- ══ HEADER ══ -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="/" class="logo">
+          <span class="logo-icon" aria-hidden="true">📄</span>
+          <span class="logo-text">Doc2PDF</span>
+        </a>
         <a
-          class="gh-badge"
+          class="btn-ghost"
           href="https://github.com/addin-alt/doc-to-pdf-frontend"
           target="_blank"
           rel="noopener"
+          data-tip="View source on GitHub"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
             <path
               d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
             />
           </svg>
-          View on GitHub
+          GitHub
         </a>
-      </header>
+      </div>
+    </header>
 
-      <!-- ── Hero ── -->
+    <main class="main">
+      <!-- ══ HERO ══ -->
       <section class="hero">
-        <div class="hero-badge">Free · Instant · Secure</div>
-        <h1 class="hero-title">
-          Convert <span class="gradient-word">DOCX</span><br />to
-          <span class="gradient-word">PDF</span>
-        </h1>
-        <p class="hero-sub">
-          Drop your Word document and get a crisp PDF in seconds — no sign-up,
-          no limits.
+        <div class="pill">Free &nbsp;·&nbsp; Instant &nbsp;·&nbsp; Private</div>
+        <h1 class="hero-h1">Convert <em>DOCX</em><br />to <em>PDF</em></h1>
+        <p class="hero-p">
+          Upload your Word file — get a crisp PDF back in seconds.<br
+            class="br-desk"
+          />No account. No storage. No nonsense.
         </p>
       </section>
 
-      <!-- ── Converter Card ── -->
-      <section class="card-wrap">
-        <div class="card" id="converterCard">
-          <!-- Drop Zone -->
-          <div class="drop-zone" id="dropZone">
-            <input type="file" id="fileInput" accept=".doc,.docx" hidden />
-            <div class="drop-inner" id="dropInner">
-              <div class="drop-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <rect
-                    x="6"
-                    y="4"
-                    width="28"
-                    height="36"
-                    rx="4"
-                    fill="#1e293b"
-                    stroke="#334155"
-                    stroke-width="1.5"
-                  />
-                  <rect
-                    x="10"
-                    y="4"
-                    width="28"
-                    height="36"
-                    rx="4"
-                    fill="#0f172a"
-                    stroke="#334155"
-                    stroke-width="1.5"
-                  />
-                  <path
-                    d="M18 20h12M18 25h8"
-                    stroke="#6366f1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M26 8v8l4-4"
-                    stroke="#6366f1"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <p class="drop-label">
-                Drag &amp; drop your <strong>.docx</strong> here
-              </p>
-              <p class="drop-sub">or</p>
-              <button
-                class="btn-browse"
-                onclick="document.getElementById('fileInput').click()"
-              >
-                Browse File
-              </button>
-              <p class="drop-hint">Supports .doc and .docx</p>
-            </div>
+      <!-- ══ CONVERTER ══ -->
+      <section class="converter">
+        <!-- Hidden file input — triggered by JS only -->
+        <input type="file" id="fileInput" accept=".doc,.docx" hidden />
 
-            <!-- File selected state -->
-            <div class="file-selected" id="fileSelected" style="display: none">
-              <div class="file-icon">📄</div>
-              <div class="file-info">
-                <span class="file-name" id="fileName">document.docx</span>
-                <span class="file-size" id="fileSize">0 KB</span>
-              </div>
-              <button class="btn-clear" id="clearBtn" title="Remove file">
-                ✕
-              </button>
-            </div>
-          </div>
-
-          <!-- Convert Button -->
-          <button
-            class="btn-convert"
-            id="convertBtn"
-            onclick="convertFile()"
-            disabled
-          >
-            <span class="btn-text">Convert to PDF</span>
-            <span class="btn-arrow">→</span>
-            <span class="btn-spinner" style="display: none">
-              <svg
-                class="spin"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="rgba(255,255,255,0.3)"
-                  stroke-width="3"
+        <!-- Drop zone (drag area only — no click-to-open here) -->
+        <div class="dropzone" id="dropZone">
+          <!-- Empty state -->
+          <div id="emptyState" class="dz-empty">
+            <div class="dz-icon" aria-hidden="true">
+              <svg width="54" height="54" viewBox="0 0 54 54" fill="none">
+                <rect
+                  x="7"
+                  y="4"
+                  width="30"
+                  height="40"
+                  rx="5"
+                  fill="#131f38"
+                  stroke="#243355"
+                  stroke-width="1.5"
+                />
+                <rect
+                  x="11"
+                  y="4"
+                  width="30"
+                  height="40"
+                  rx="5"
+                  fill="#0c1526"
+                  stroke="#243355"
+                  stroke-width="1.5"
                 />
                 <path
-                  d="M12 2a10 10 0 0 1 10 10"
-                  stroke="white"
-                  stroke-width="3"
+                  d="M19 22h16M19 29h11"
+                  stroke="#4f8ef7"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M27 10v10l4-4"
+                  stroke="#4f8ef7"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <p class="dz-label">
+              Drag &amp; drop your <strong>.docx</strong> here
+            </p>
+            <span class="dz-or">— or —</span>
+            <!-- Browse button: click event handled fully in JS, stopPropagation prevents bubbling -->
+            <button
+              class="btn-browse"
+              type="button"
+              id="browseBtn"
+              data-tip="Open file picker"
+            >
+              Browse file
+            </button>
+            <p class="dz-hint">
+              Supports .doc &amp; .docx &nbsp;·&nbsp; Max 20 MB
+            </p>
+          </div>
+
+          <!-- File selected state -->
+          <div id="fileState" class="dz-file" style="display: none">
+            <span class="dz-file-ico" aria-hidden="true">📄</span>
+            <div class="dz-file-meta">
+              <span class="dz-filename" id="fileName"></span>
+              <span class="dz-filesize" id="fileSize"></span>
+            </div>
+            <button
+              class="btn-remove"
+              id="clearBtn"
+              type="button"
+              data-tip="Remove file"
+              aria-label="Remove file"
+            >
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 11 11"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M1 1l9 9M10 1L1 10"
+                  stroke="currentColor"
+                  stroke-width="2"
                   stroke-linecap="round"
                 />
               </svg>
-              Converting…
-            </span>
-          </button>
-
-          <!-- Status Messages -->
-          <div class="status-wrap" id="statusWrap" style="display: none">
-            <div class="status-msg" id="statusMsg"></div>
-          </div>
-
-          <!-- Progress Bar -->
-          <div class="progress-wrap" id="progressWrap" style="display: none">
-            <div class="progress-bar">
-              <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <span class="progress-label" id="progressLabel">0%</span>
+            </button>
           </div>
         </div>
+
+        <!-- Progress bar -->
+        <div class="progress-row" id="progressRow" style="display: none">
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="progress-pct" id="progressPct">0%</span>
+        </div>
+
+        <!-- Status message -->
+        <div
+          class="status-msg"
+          id="statusMsg"
+          style="display: none"
+          role="alert"
+        ></div>
+
+        <!-- Convert button -->
+        <button class="btn-convert" id="convertBtn" type="button" disabled>
+          <span id="btnLabel">Convert to PDF</span>
+          <svg
+            id="btnArrow"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 9h12M10 4l5 5-5 5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <svg
+            id="btnSpinner"
+            class="spin"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            style="display: none"
+            aria-hidden="true"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="rgba(255,255,255,.2)"
+              stroke-width="3"
+            />
+            <path
+              d="M12 2a10 10 0 0 1 10 10"
+              stroke="white"
+              stroke-width="3"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
       </section>
 
-      <!-- ── Features ── -->
-      <section class="features">
-        <div class="feature">
-          <div class="feat-icon">🔒</div>
-          <h3>Private</h3>
-          <p>Files are never stored. Processed instantly and deleted.</p>
-        </div>
-        <div class="feature">
-          <div class="feat-icon">⚡</div>
-          <h3>Lightning Fast</h3>
-          <p>Server-side rendering gives you a perfect PDF in seconds.</p>
-        </div>
-        <div class="feature">
-          <div class="feat-icon">📐</div>
-          <h3>True Fidelity</h3>
-          <p>Fonts, tables, and images convert exactly as designed.</p>
-        </div>
-      </section>
+      <!-- ══ FEATURES ══ -->
+      <ul class="features">
+        <li
+          class="feat"
+          data-tip="Files are never written to disk — processed in memory only"
+        >
+          <span class="feat-ico" aria-hidden="true">🔒</span>
+          <strong>100% Private</strong>
+          <span>Files deleted after conversion</span>
+        </li>
+        <li
+          class="feat"
+          data-tip="LibreOffice backend renders your PDF in seconds"
+        >
+          <span class="feat-ico" aria-hidden="true">⚡</span>
+          <strong>Instant Results</strong>
+          <span>Converts in seconds, not minutes</span>
+        </li>
+        <li
+          class="feat"
+          data-tip="Tables, fonts, images and layout all preserved"
+        >
+          <span class="feat-ico" aria-hidden="true">✦</span>
+          <strong>True Fidelity</strong>
+          <span>Formatting preserved exactly</span>
+        </li>
+      </ul>
 
-      <!-- ── Developer Cards ── -->
-      <div class="dev-section-label">Built by</div>
-      <div class="dev-cards-grid">
-        <!-- Addin -->
-        <section class="dev-card">
-          <div class="dev-avatar">
-            <img
-              src="https://avatars.githubusercontent.com/addin-alt?v=4"
-              alt="Al Addin"
-              onerror="
-                this.style.display = 'none';
-                document.getElementById('devInitial1').style.display = 'flex';
-              "
-            />
-            <div id="devInitial1" class="dev-initial" style="display: none">
-              A
+      <!-- ══ TEAM ══ -->
+      <div class="team-wrap">
+        <p class="team-label">Built by</p>
+        <div class="team-grid">
+          <!-- Addin -->
+          <article class="dev-card">
+            <div class="dev-av">
+              <img
+                src="https://avatars.githubusercontent.com/addin-alt?v=4"
+                alt="Al Addin"
+                loading="lazy"
+                width="52"
+                height="52"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="dev-av-init" style="display: none" aria-hidden="true">
+                A
+              </div>
             </div>
-          </div>
-          <div class="dev-info">
-            <h3 class="dev-name">Al Addin</h3>
-            <p class="dev-bio">
-              Full-stack developer passionate about building tools that make
-              life easier.
-            </p>
-            <div class="dev-links">
-              <a
-                href="https://github.com/addin-alt"
-                target="_blank"
-                rel="noopener"
-                class="dev-link dev-link--github"
-              >
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+            <div class="dev-body">
+              <h2 class="dev-name">Al Addin</h2>
+              <p class="dev-role">Full-stack developer &amp; project lead</p>
+              <div class="dev-socials">
+                <a
+                  href="https://github.com/addin-alt"
+                  target="_blank"
+                  rel="noopener"
+                  class="social-btn social--gh"
+                  data-tip="github.com/addin-alt"
                 >
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
-                  />
-                </svg>
-                GitHub
-              </a>
-              <a
-                href="https://linkedin.com/in/addin-alt"
-                target="_blank"
-                rel="noopener"
-                class="dev-link dev-link--linkedin"
-              >
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://facebook.com/addin-alt"
+                  target="_blank"
+                  rel="noopener"
+                  class="social-btn social--fb"
+                  data-tip="facebook.com/addin-alt"
                 >
-                  <path
-                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                  />
-                </svg>
-                LinkedIn
-              </a>
-              <a
-                href="https://facebook.com/addin-alt"
-                target="_blank"
-                rel="noopener"
-                class="dev-link dev-link--facebook"
-              >
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                  />
-                </svg>
-                Facebook
-              </a>
-              <a
-                href="https://instagram.com/addin_alt"
-                target="_blank"
-                rel="noopener"
-                class="dev-link dev-link--instagram"
-              >
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"
-                  />
-                </svg>
-                Instagram
-              </a>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                    />
+                  </svg>
+                  Facebook
+                </a>
+              </div>
             </div>
-          </div>
-        </section>
+          </article>
 
-        <!-- Shawn -->
-        <section class="dev-card">
-          <div class="dev-avatar">
-            <img
-              src="https://avatars.githubusercontent.com/shawnazd?v=4"
-              alt="Shawn"
-              onerror="
-                this.style.display = 'none';
-                document.getElementById('devInitial2').style.display = 'flex';
-              "
-            />
-            <div
-              id="devInitial2"
-              class="dev-initial dev-initial--shawn"
-              style="display: none"
-            >
-              S
-            </div>
-          </div>
-          <div class="dev-info">
-            <h3 class="dev-name">Shawn</h3>
-            <p class="dev-bio">
-              Developer & collaborator focused on clean code and great user
-              experiences.
-            </p>
-            <div class="dev-links">
-              <a
-                href="https://github.com/shawnazd"
-                target="_blank"
-                rel="noopener"
-                class="dev-link dev-link--github"
+          <!-- Shawn -->
+          <article class="dev-card">
+            <div class="dev-av">
+              <img
+                src="https://avatars.githubusercontent.com/shawnazd?v=4"
+                alt="Shawn"
+                loading="lazy"
+                width="52"
+                height="52"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div
+                class="dev-av-init dev-av-init--s"
+                style="display: none"
+                aria-hidden="true"
               >
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
-                  />
-                </svg>
-                GitHub
-              </a>
-              <a
-                href="https://facebook.com/shawnazd"
-                target="_blank"
-                rel="noopener"
-                class="dev-link dev-link--facebook"
-              >
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                  />
-                </svg>
-                Facebook
-              </a>
+                S
+              </div>
             </div>
-          </div>
-        </section>
+            <div class="dev-body">
+              <h2 class="dev-name">Shawn</h2>
+              <p class="dev-role">Developer &amp; UI collaborator</p>
+              <div class="dev-socials">
+                <a
+                  href="https://github.com/shawnazd"
+                  target="_blank"
+                  rel="noopener"
+                  class="social-btn social--gh"
+                  data-tip="github.com/shawnazd"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+                    />
+                  </svg>
+                  GitHub
+                </a>
+                <a
+                  href="https://facebook.com/shawnazd"
+                  target="_blank"
+                  rel="noopener"
+                  class="social-btn social--fb"
+                  data-tip="facebook.com/shawnazd"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                    />
+                  </svg>
+                  Facebook
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </main>
 
-    <!-- ── Footer ── -->
-    <footer class="site-footer">
-      <p>© 2026 Al Addin & Shawn · DocFlow · MIT License</p>
-      <p class="footer-sub">
-        Backend powered by
-        <a href="https://doc-to-pdf-backend.onrender.com" target="_blank"
-          >doc-to-pdf-backend</a
+    <!-- ══ FOOTER ══ -->
+    <footer class="footer">
+      <p>
+        © 2026 Al Addin &amp; Shawn &nbsp;·&nbsp; Doc2PDF &nbsp;·&nbsp; MIT
+        License
+      </p>
+      <p>
+        Backend:
+        <a
+          href="https://doc-to-pdf-backend.onrender.com"
+          target="_blank"
+          rel="noopener"
+          data-tip="Open backend API"
+          >doc-to-pdf-backend.onrender.com</a
         >
       </p>
     </footer>
